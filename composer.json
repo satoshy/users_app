@@ -16,7 +16,9 @@
             "App\\": "app/"
         },
         "classmap": [
-            "database/"
+            "database/",
+            "app/Models"
+
         ]
     },
     "autoload-dev": {
