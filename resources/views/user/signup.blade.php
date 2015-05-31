@@ -1,31 +1,38 @@
 @extends('layouts.master')
+
 @section('content')
-	<form method="post" role="form">
-		<input type="hidden" name="_token" value="'.csrf_token().'">
-		<div class="form-group">
-		    <label for="firstname">First name:</label>
-		    <input type="text" class="form-control" id="firstname">
-	    </div>
-	    <div class="form-group">
-		    <label for="lastname">Last name:</label>
-		    <input type="text" class="form-control" id="lastname">
-	    </div>
+<div class="col-md-4 col-md-offset-4">
+	<br>
+	<br>
+	<br>
+	<form id="signup" name="signup" method="post" action="" role="form">
+		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 	    <div class="form-group">
 		    <label for="username">Username:</label>
-		    <input type="text" class="form-control" id="username">
+		    <input id="username" type="text" name="username" placeholder="Username"value="" class="form-control" >
 	    </div>
 	    <div class="form-group">
 		    <label for="city">City:</label>
-		    <input type="text" class="form-control" id="city">
+		     <input id="city" type="text" name="city" placeholder="City"value="" class="form-control" >
 	    </div>
 		<div class="form-group">
 		    <label for="email">Email address:</label>
-		    <input type="email" class="form-control" id="email">
+		     <input id="email" type="text" name="email" placeholder="Email"value="" class="form-control" >
 	    </div>
 	    <div class="form-group">
-	    	<label for="pwd">Password:</label>
-	    	<input type="password" class="form-control" id="pwd">
+	    	<label for="password">Password:</label>
+	    	 <input id="password" type="password" name="password" placeholder="Password" value="" class="form-control" >
+	    </div>
+	    <div class="form-group">
+	    	<label for="password_confirmation">Password confirmation:</label>
+	    	 <input id="password_confirmation" type="password" name="password_confirmation" placeholder="Password confirm"value="" class="form-control" >
 	    </div>
 		<button type="submit" class="btn btn-default">Submit</button>
 	</form>
+</div>
+<!-- js asset/js -->
+<script src="asset/js/signup.js"></script>
+<script src="asset/js/jquery.tokeninput.js"></script>
+<script src="asset/js/city_find.js"></script>
+<!-- end -->
 @stop
