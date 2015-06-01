@@ -1,12 +1,12 @@
-<?php namespace App\Http\Controllers;
+<?php 
+namespace App\Http\Controllers;
 
 use Auth;
+use Illuminate\Support\Facades\Redirect;
 use Validator;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller {
 
@@ -18,79 +18,56 @@ class UserController extends Controller {
 
     public function login(Request $request)
     {
-        if ($request->method() == Request::METHOD_POST) {
-            $validator = Validator::make($request->all(), [
-                'account'  => 'required',
-                'password' => 'required',
-            ]);
-            
-            if ($validator->fails()) {
-                return redirect()->route('user_login_page');
-            } else {
-                $account = $request->input('account');
-                $user    = User::where('username', $account)->orWhere('email', $account)->find(1);
+        return view('user.login'); 
+    }
 
-                $user = User::select('SELECT * FROM users where username = ?', [$request->input('username')]);
-                
-                if ($user === null) {
+    public function create()
+    {
+        return view('user.form'); 
+    }
 
-                }
-                $accountColumn = filter_var($request->input('account'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-                
-                if (Auth::attempt($request->only($accountColumn, 'password')) === false) {}
+    public function edit($id)
+    {
+        $user = User::find($id);
 
-            if (!empty($user)) {
-                if ( Hash::check($request->input('password'), $user->password) ) {
-                    Session::flush();
-                    Session::regenerate();
-                    Session::put('user', $user[0]);
-                    return redirect('/');
-                }
-            }
-            }
-
-        } else {
-            return view('user.login');
+        if ($user === null) {
+            exit("Not found user!");
         }
-        
+        return view('user.form')->with('user', $user);
     }
 
-    public function signup(Request $request)
+    public function store(Request $request)
     {
-        if ($request->method() == Request::METHOD_POST) {
-            $validator = Validator::make($request->all(), [
-                'city'                  => 'max:30',
-                'username'              => 'required|min:6|max:36|unique:users',
-                'email'                 => 'required|email|unique:users|max:60',
-                'password'              => 'required|min:8|confirmed',
-                'password_confirmation' => 'required|min:8'
-            ]);
-
-            if ($validator->fails()) {
-                return redirect()->route('user_signup_page');
-            } else {
-                $user = User::create($request->only('firstname', 'lastname', 'city', 
-                                                    'username', 'email', 'password'));
-
-                return redirect()->route('user_login_page');
-            }
-        } else {
-            return view('user.signup');
-        } 
-    }
-
-    public function update(Request $request)
-    {
-        $this->validate($req, [
-            'firstname'             => 'min:5',
-            'lastname'              => 'min:5',
-            'password' => 'required|min:8',
+        $validator = Validator::make($request->all(), [
+            'city'                  => 'min:3|max:30',
+            'username'              => 'required|min:6|max:36|unique:users',
+            'email'                 => 'required|email|unique:users|max:60',
+            'password'              => 'required|min:8|confirmed',
+            'password_confirmation' => 'required|min:8'
         ]);
-        $user = DB::update(
-            'update users set password = ? where id = ?',
-            [Hash::make($req->input('password')), Session::get('user')->id]
-        );
-        return redirect()->route('user_me_show');
+
+        if ($validator->fails()) 
+        {
+            return redirect()->back();
+        } else {
+            $user = User::create($request->only( 'city', 'username', 'email', 'password'));
+
+            return redirect()->route('users_all');
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::find($id);
+        $user->firstname = $request->input('firstname');
+        $user->lastname = $request->input('lastname');
+        $user->city = $request->input('city');
+        $user->username = $request->input('username');
+        $user->email = $request->input('email');
+        $user->password = ($request->input('password'));
+        $user->save();
+        
+        return redirect()->route('users_all');
     }
 
     public function logout()
@@ -102,15 +79,13 @@ class UserController extends Controller {
         //return redirect('/');
 
     }
-
-    public function edit()
-    {
-
-    }
     
-    public function destroy()
+    public function destroy($id)
     {
+        $user = User::find($id);
+        $user->delete();
 
+        return redirect('/user/index'); 
     }
 
 }

@@ -4,17 +4,38 @@
 	<br>
 	<br>
 	<br>
-	<form method="post" role="form">
+	@if (count($errors) > 0)
+		<div class="alert alert-danger">
+			<strong>Whoops!</strong> There were some problems with your input.<br><br>
+			<ul>
+				@foreach ($errors->all() as $error)
+					<li>{{ $error }}</li>
+				@endforeach
+			</ul>
+		</div>
+	@endif
+	<div id="login">
+	<form method="post" action="{{ url('user/login') }}" role="form">
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		<div class="form-group">
-		    <label for="account">Account:</label>
-		    <input id="account" type="text" name="account" placeholder="Username or Email" value="" class="form-control" >
+		    <label for="username">Username:</label>
+		    <input id="username" type="text" name="username" placeholder="Username" value="" class="form-control" autofocus  minlength="6" required >
 	    </div>
 	    <div class="form-group">
 	    	<label for="password">Password:</label>
-	    	<input id="password" type="password" name="password" placeholder="Password" value="" class="form-control" >
+	    	<input id="password" type="password" name="password" placeholder="Password" value="" class="form-control" minlength="6" required >
 	    </div>
-		<button type="submit" class="btn btn-default">Submit</button>
+	    <div class="form-group">
+	    	<input type="checkbox" value="1" id="remember" name="remember">
+	    	<label for="remember">Remember me</label>         
+        </div>
+		<div class="form-group">
+            <button type="submit" class="btn btn-primary">Login</button>
+            <a class="btn btn-link" href="{{ url('/auth/email') }}">Forgot Your Password?</a>
+        </div>
 	</form>
-</div>
-@stop
+	</div>
+<script>
+$( "#login" ).validate();
+</script>
+@endsection

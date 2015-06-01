@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -11,22 +14,34 @@
 |
 */
 
-//$app->get('/', function() use ($app) {
-//    return $app->welcome();
-//});
+//Guest
 $app->get('/', function() {
     return view('welcome');
 });
 
-$app->get('users', ['uses' => 'App\Http\Controllers\UserController@index']);
-
-$app->group(['prefix' => 'user'], function($app)
-{
-	$app->get('show/{id}', ['uses' => 'App\Http\Controllers\UserController@show', 'as' => 'user_show']);
-	$app->get('update/{id}', ['uses' => 'App\Http\Controllers\UserController@show', 'as' => 'user_update']);
-	$app->get('login', ['uses' => 'App\Http\Controllers\UserController@login', 'as' => 'user_login_page']);
-	$app->post('login', ['uses' => 'App\Http\Controllers\UserController@login', 'as' => 'user_login_login']);
-	$app->get('signup', ['uses' => 'App\Http\Controllers\UserController@signup', 'as' => 'user_signup_page']);
-	$app->post('signup', ['uses' => 'App\Http\Controllers\UserController@signup', 'as' => 'user_signup_signup']);
-	$app->delete('logout', ['uses' => 'App\Http\Controllers\UserController@logout', 'as' => 'user_login_delete']);
+$app->post('user/login', function (Request $request) {
+    if (Auth::attempt($request->only('username', 'password'))) {
+        return redirect('/user/index');
+    } else {
+        return redirect()->back();
+    }
 });
+
+$app->get('/logout', function () {
+    Auth::logout();
+    return redirect('/');
+});
+
+$app->group(['prefix' => 'user','namespace' => 'App\Http\Controllers'], function($app)
+{
+	$app->get('/index',           ['uses' => 'UserController@index',   'as' => 'users_all']);
+	$app->get('/edit/{id}',       ['uses' => 'UserController@edit',    'as' => 'user_edit']);
+	$app->get('/create',          ['uses' => 'UserController@create',  'as' => 'user_create']);
+	$app->post('/store',          ['uses' => 'UserController@store',   'as' => 'user_store']);
+	$app->post('/update/{id}',    ['uses' => 'UserController@update',  'as' => 'user_update']);
+	$app->get('/delete/{id}',     ['uses' => 'UserController@destroy', 'as' => 'user_delete']);
+
+	$app->get('/login',           ['uses' => 'UserController@login',   'as' => 'user_login_page']);
+	$app->get('/signup',          ['uses' => 'UserController@create',  'as' => 'user_signup_page']);
+});
+

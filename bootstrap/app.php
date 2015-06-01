@@ -64,6 +64,7 @@ $app->singleton(
 
  $app->routeMiddleware([
  	'auth' => 'App\Http\Middleware\AuthMiddleware',
+  'guest' => 'App\Http\Middleware\RedirectAuthenticated'
  ]);
 
 /*

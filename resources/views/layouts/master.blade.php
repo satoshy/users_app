@@ -1,6 +1,8 @@
-<html>
+<!DOCTYPE HTML>
+<html lang="en">
     <head>
-        <meta charset="UTF-8">
+        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+        <meta content="utf-8" http-equiv="encoding">
         <meta content="authenticity_token" name="csrf-param">
         <title>USERS_APP- @yield('title')</title>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -33,10 +35,10 @@
 
                             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                 <ul class="nav navbar-nav navbar-right">
-                                    <li><a href="/users">USERS</a></li>
+                                    <li><a href="/user/index">USERS</a></li>
                                     @if (Auth::check())
                                     <li><a href="/logout">Log Out</a></li>
-                                    <li><a href="/profile">{{ Auth::user()->firstname }}</a></li>
+                                    <li><a href="/profile">{{ Auth::user()->username }}</a></li>
                                     <li><a href="/user/logout">Logout</a></li>
                                     @else
                                     <li><a href="/user/signup">Sign Up</a></li>
@@ -48,6 +50,7 @@
                         </div>
                     </nav>
                 </div>
+            </div>
         @show
 
         @section('content')
