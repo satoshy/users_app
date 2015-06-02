@@ -27,8 +27,8 @@
                 @endforeach
                   
             </tbody>
-          
         </table>
+        {!! $users->render() !!}
     @else
         There are no users
     @endif

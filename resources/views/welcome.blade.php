@@ -6,16 +6,7 @@
 		<br>
 		<br>
 		<h1>Welcome to the users_app!!!</h1>
-		<button id="login" class="btn btn-primary">LOGIN</button>
-		<button id="signup" class="btn btn-primary">Sign Up</button>
+		<li><a id="login" class="btn btn-primary" href="/user/signup">Sign Up</a></li>
+        <li><a id="signup" class="btn btn-primary" href="/user/loginPage">Login</a></li>
 	</div>
-	<script type="text/javascript">
-	    document.getElementById("login").onclick = function () {
-	        location.href = "user/login";
-	    };
-	    document.getElementById("signup").onclick = function () {
-	        location.href = "user/signup";
-	    };
-	</script>
-
 @stop

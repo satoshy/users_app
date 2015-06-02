@@ -1,29 +1,22 @@
 <?php 
 namespace App\Http\Controllers;
 
-use Auth;
-use Illuminate\Support\Facades\Redirect;
-use Validator;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Models\City;
 use App\Http\Controllers\Controller;
+use Auth;
+use Validator;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\Auth\Registrar;
 
 class UserController extends Controller {
 
     public function index()
     {
-        $users = User::orderBy('created_at', 'desc')->paginate(4);
+        $users = User::orderBy('created_at', 'desc')->paginate(3);
         return view('user.index')->with('users', $users);
-    }
-
-    public function login(Request $request)
-    {
-        return view('user.login'); 
-    }
-
-    public function create()
-    {
-        return view('user.form'); 
     }
 
     public function edit($id)
@@ -34,6 +27,37 @@ class UserController extends Controller {
             exit("Not found user!");
         }
         return view('user.form')->with('user', $user);
+    }
+
+    public function loginPage()
+    {
+        return view('user.loginPage'); 
+    }
+
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'username'  => 'required',
+            'password' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back();
+        } else {
+
+            if ( Auth::attempt($request->only('username', 'password'))) {
+             return redirect('/user/index');
+             //return redirect('/')->with('message', 'Logged in!');
+            } else {
+                return redirect()->back();
+            }
+        }
+
+    }
+
+    public function signupPage()
+    {
+        return view('user.form');
     }
 
     public function store(Request $request)
@@ -50,10 +74,21 @@ class UserController extends Controller {
         {
             return redirect()->back();
         } else {
+
+            $request->merge([
+                'password' => Hash::make($request->input('password'))
+            ]);
+
             $user = User::create($request->only( 'city', 'username', 'email', 'password'));
 
             return redirect()->route('users_all');
         }
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return $this->withSuccessMessage('Sign out Successful');
     }
 
     public function update(Request $request, $id)
@@ -69,16 +104,6 @@ class UserController extends Controller {
         
         return redirect()->route('users_all');
     }
-
-    public function logout()
-    {
-        //Session::flush();
-        //Session::regenerate();
-        Auth::logout();
-        return $this->withSuccessMessage('Sign out Successful');
-        //return redirect('/');
-
-    }
     
     public function destroy($id)
     {
@@ -86,6 +111,20 @@ class UserController extends Controller {
         $user->delete();
 
         return redirect('/user/index'); 
+    }
+
+    public function userSearch(Request $request)
+    {
+        $user = User::where('username', $request->input('username'))->find();
+        return "$username";
+    }
+
+    public function keySearch(Request $request)
+    {
+        $keyword  = $request->input('city');
+        $username = City::where('city', 'LIKE', '%'.$keyword.'%')->paginate();
+
+        //return 
     }
 
 }

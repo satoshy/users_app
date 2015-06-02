@@ -19,20 +19,12 @@ $app->get('/', function() {
     return view('welcome');
 });
 
-$app->post('user/login', function (Request $request) {
-    if (Auth::attempt($request->only('username', 'password'))) {
-        return redirect('/user/index');
-    } else {
-        return redirect()->back();
-    }
-});
-
 $app->get('/logout', function () {
     Auth::logout();
     return redirect('/');
 });
 
-$app->group(['prefix' => 'user','namespace' => 'App\Http\Controllers'], function($app)
+$app->group(['prefix' => '/user','namespace' => 'App\Http\Controllers'], function($app)
 {
 	$app->get('/index',           ['uses' => 'UserController@index',   'as' => 'users_all']);
 	$app->get('/edit/{id}',       ['uses' => 'UserController@edit',    'as' => 'user_edit']);
@@ -41,7 +33,10 @@ $app->group(['prefix' => 'user','namespace' => 'App\Http\Controllers'], function
 	$app->post('/update/{id}',    ['uses' => 'UserController@update',  'as' => 'user_update']);
 	$app->get('/delete/{id}',     ['uses' => 'UserController@destroy', 'as' => 'user_delete']);
 
-	$app->get('/login',           ['uses' => 'UserController@login',   'as' => 'user_login_page']);
-	$app->get('/signup',          ['uses' => 'UserController@create',  'as' => 'user_signup_page']);
+	$app->get('/loginPage',       ['uses' => 'UserController@loginPage',   'as' => 'user_login_page']);
+	$app->post('/login',          ['uses' => 'UserController@login',       'as' => 'user_login']);
+	$app->get('/signup',          ['uses' => 'UserController@signupPage',  'as' => 'user_signup_page']);
+
+	$app->get('/search',          ['uses' => 'UserController@userSearch',   'as' => 'user_search']);
 });
 
