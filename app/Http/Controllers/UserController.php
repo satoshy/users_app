@@ -45,9 +45,13 @@ class UserController extends Controller {
         return redirect('/user/index'); 
     }
 
-    public function finduser(Request $request)
+    public function findname(Request $request)
     {
         $user = User::where('username', $request->input('username'))->find(1);
+        if ($user === null) {
+            return response()->json(['success' => false]);
+        }
+        return response()->json(['success' => true]);
     }
 
     public function findcity(Request $request)

@@ -17,7 +17,7 @@ class Authenticate implements Middleware {
         if(Auth::check()) {
             return $next($request);
         } else {
-            return redirect('user/loginPage');
+            return redirect('/auth/loginPage');
         }
         
     }

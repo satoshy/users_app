@@ -59,7 +59,8 @@ class AuthController extends Controller {
 
         if ($validator->fails()) 
         {
-            return redirect()->back();
+            //return redirect()->back();
+            return response()->json(['success' => false, 'message' => 'Not valid fields!']);
         } else {
             $request->merge([
                 'password' => bcrypt($request->input('password'))

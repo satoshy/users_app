@@ -1,8 +1,15 @@
 $(document).ready(function(){
-	$('#signup').on('click', function(){
-		var form = this;
-		//$.ajax({
-		//type: "POST",
-		//url: "/user/signup"})
-	})
+	$("#signup").submit(function() {
+    	var form_data= $( this ).serialize();
+    
+        $.ajax({
+            url: '/auth/signup',
+            type: 'POST',
+            data: form_data,
+            dataType: 'json',
+            success: function( response ){
+                console.log(response);
+        	}
+    });
+});
 });
