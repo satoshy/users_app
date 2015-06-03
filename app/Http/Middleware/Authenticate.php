@@ -2,9 +2,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Routing\Middleware;
 
 class Authenticate implements Middleware {
 
@@ -16,10 +14,12 @@ class Authenticate implements Middleware {
 
     public function handle($request, Closure $next)
     {
-        if(!Auth::check()) {
-            return new Response('', 401);
+        if(Auth::check()) {
+            return $next($request);
+        } else {
+            return redirect('user/loginPage');
         }
-        return $next($request);
+        
     }
 
 }

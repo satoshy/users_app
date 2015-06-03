@@ -13,30 +13,32 @@ use Illuminate\Support\Facades\Auth;
 | and give it the controller to call when that URI is requested.
 |
 */
-
-//Guest
+/*
+//Home page
+*/
 $app->get('/', function() {
     return view('welcome');
 });
 
-$app->get('/logout', function () {
-    Auth::logout();
-    return redirect('/');
+$app->group(['prefix' => '/auth', 'namespace' => 'App\Http\Controllers'], function($app)
+{
+	$app->post('/login',      ['uses' => 'AuthController@login',       'as' => 'login']);
+	$app->get('/loginPage',   ['uses' => 'AuthController@loginPage',   'as' => 'login_page']);
+	$app->post('/signup',     ['uses' => 'AuthController@signup',      'as' => 'signup']);
+	$app->get('/signupPage',  ['uses' => 'AuthController@signupPage',  'as' => 'signup_page']);
+	$app->get('/logout',      ['uses' => 'AuthController@logout',      'as' => 'logout']);
 });
 
-$app->group(['prefix' => '/user','namespace' => 'App\Http\Controllers'], function($app)
+
+
+$app->group(['prefix' => '/user', 'namespace' => 'App\Http\Controllers'], function($app)
 {
-	$app->get('/index',           ['uses' => 'UserController@index',   'as' => 'users_all']);
-	$app->get('/edit/{id}',       ['uses' => 'UserController@edit',    'as' => 'user_edit']);
-	$app->get('/create',          ['uses' => 'UserController@create',  'as' => 'user_create']);
-	$app->post('/store',          ['uses' => 'UserController@store',   'as' => 'user_store']);
-	$app->post('/update/{id}',    ['uses' => 'UserController@update',  'as' => 'user_update']);
-	$app->get('/delete/{id}',     ['uses' => 'UserController@destroy', 'as' => 'user_delete']);
+	$app->get('/index',        ['uses' => 'UserController@index',   'as' => 'users_all']);
+	$app->get('/edit/{id}',    ['uses' => 'UserController@edit',    'as' => 'user_edit']);
+	$app->post('/update/{id}', ['uses' => 'UserController@update',  'as' => 'user_update']);
+	$app->get('/delete/{id}',  ['uses' => 'UserController@destroy', 'as' => 'user_delete']);
 
-	$app->get('/loginPage',       ['uses' => 'UserController@loginPage',   'as' => 'user_login_page']);
-	$app->post('/login',          ['uses' => 'UserController@login',       'as' => 'user_login']);
-	$app->get('/signup',          ['uses' => 'UserController@signupPage',  'as' => 'user_signup_page']);
-
-	$app->get('/search',          ['uses' => 'UserController@userSearch',   'as' => 'user_search']);
+	$app->get('/finduser',     ['uses' => 'UserController@userSearch',   'as' => 'finduser']);
+	$app->get('/findcity',     ['uses' => 'UserController@userSearch',   'as' => 'findcity']);
 });
 

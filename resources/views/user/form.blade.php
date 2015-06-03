@@ -1,4 +1,5 @@
 @extends('layouts.master')
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 
 @section('content')
 <div class="col-md-4 col-md-offset-4">
@@ -14,9 +15,9 @@
     	@if(isset($user))
             <form id="signup" name="signup" role="form" action="/user/update/{{$user->id}}" method="post">
         @else
-            <form id="signup" name="signup" role="form" action="/user/store" method="post">
+            <form id="signup" name="signup" role="form" action="/auth/signup" method="post">
         @endif
-			<input type="hidden" name="_token" value="{{ csrf_token() }}">
+			<input id="_token" type="hidden" name="_token" value="{{ csrf_token() }}">
 		    <div class="form-group">
 			    <label for="username">Username:</label>
 			    <input id="username" type="text" name="username" placeholder="Username" @if(isset($user)) value="{{$user->username}}" @endif class="form-control" autofocus >
@@ -44,5 +45,12 @@
 		</form>
 	<div>
 </div>
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
 <script src="/assets/js/usersearch.js"></script>
 @endsection

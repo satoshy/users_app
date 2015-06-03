@@ -1,21 +1,15 @@
 <!DOCTYPE HTML>
 <html lang="en">
     <head>
-        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-        <meta content="utf-8" http-equiv="encoding">
-        <meta content="authenticity_token" name="csrf-param">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <title>USERS_APP- @yield('title')</title>
         
-
-        <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
-        <!-- Optional theme -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.js"></script>
     </head>
     <body>
         @section('sidebar')
@@ -37,24 +31,21 @@
                                 <ul class="nav navbar-nav navbar-right">
                                     <li><a href="/user/index">USERS</a></li>
                                     @if (Auth::check())
-                                    <li><a href="/logout">Log Out</a></li>
-                                    <li><a href="/profile">{{ Auth::user()->username }}</a></li>
-                                    <li><a href="/user/logout">Logout</a></li>
+                                        <li><a href="/auth/logout">Log Out</a></li>
+                                        <li><a href="/">{{ Auth::user()->username }}</a></li>
                                     @else
-                                    <li><a href="/user/signup">Sign Up</a></li>
-                                    <li><a href="/user/loginPage">Login</a></li>
+                                        <li><a href="/auth/signupPage">Sign Up</a></li>
+                                        <li><a href="/auth/loginPage">Login</a></li>
                                     @endif
                                 </ul>
 
-                            </div><!-- /.navbar-collapse -->
+                            </div>
                         </div>
                     </nav>
                 </div>
             </div>
-        @show
-
+            @show
         @section('content')
-    
         @show
     </body>
 </html>
