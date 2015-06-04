@@ -12,15 +12,14 @@
     @endif
     <div id="signup">
     	@if(isset($user))
-            <form id="signup" name="signup" role="form" action="/user/update/{{$user->id}}" method="post">
+            <form id="signup" name="signup" role="form" autocomplete="off" action="/user/update/{{$user->id}}" method="post">
         @else
-            <form id="signup" name="signup" role="form" action="/auth/signup" method="post">
+            <form id="signup" name="signup" role="form" autocomplete="off" action="/auth/signup" method="post">
         @endif
 			<input id="_token" type="hidden" name="_token" value="{{ csrf_token() }}">
 		    <div class="form-group">
 			    <label for="username">Username:</label>
-			    <input id="username" type="text" name="username" placeholder="Username" @if(isset($user)) value="{{$user->username}}" @endif class="form-control" autofocus >
-			    <span id="responseUsername"></span>
+			    <input id="username" type="text" name="username" placeholder="Username" @if(isset($user)) value="{{$user->username}}" @endif class="form-control" autofocus ><span id="responseUsername"></span>
 		    </div>
 			<div class="form-group">
 			    <label for="email">Email address:</label>
@@ -44,6 +43,9 @@
 		</form>
 	<div>
 </div>
+<link   rel="stylesheet" type="text/css" href="/assets/css/token-input.css" />
+<script src="/assets/js/jquery.tokeninput.js"></script>
 <script src="/assets/js/signup.js"></script>
 <script src="/assets/js/findname.js"></script>
+<script src="/assets/js/findcity.js"></script>
 @endsection

@@ -56,7 +56,10 @@ class UserController extends Controller {
 
     public function findcity(Request $request)
     {
-        $city  = $request->input('city');
-        $findcity = City::where('city', 'LIKE', '%'.$city.'%')->paginate();
+        $city = User::where('city', 'LIKE', $request->input('city').'%')->find(1);
+        if ($city === null) {
+            return response()->json(['false']);
+        }
+        return response()->json(['id' => $city->id, 'name' => $city->city]);
     }
 }

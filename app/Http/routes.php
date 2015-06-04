@@ -39,6 +39,6 @@ $app->group(['prefix' => '/user', 'namespace' => 'App\Http\Controllers'], functi
 	$app->get('/delete/{id}',  ['uses' => 'UserController@destroy', 'as' => 'user_delete']);
 
 	$app->get('/findname',     ['uses' => 'UserController@findname',   'as' => 'findname']);
-	$app->get('/findcity',     ['uses' => 'UserController@userSearch',   'as' => 'findcity']);
+	$app->get('/findcity',     ['uses' => 'UserController@findcity',   'as' => 'findcity']);
 });
 
