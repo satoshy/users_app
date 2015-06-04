@@ -49,9 +49,9 @@ class UserController extends Controller {
     {
         $user = User::where('username', $request->input('username'))->find(1);
         if ($user === null) {
-            return response()->json(['success' => false]);
+            return response()->json(['Свободно']);
         }
-        return response()->json(['success' => true]);
+        return response()->json(['Занято']);
     }
 
     public function findcity(Request $request)
