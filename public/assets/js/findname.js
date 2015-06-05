@@ -4,7 +4,6 @@ $(document).ready(function(){
         var name_data= $( this ).serialize();
 
         if (username == "" || username.length <= 6) {
-            $("#responseUsername").html('<p style="color: red">Не меньше 6 символов</p>').show();
             $('#username').focus();
             return false;
         } else {
@@ -12,7 +11,7 @@ $(document).ready(function(){
             url: '/user/findname',
             type: 'GET',
             data: name_data,
-            //dataType: 'json',
+            dataType: 'json',
             success: function( response ){
                 console.log(response);
                 if (response == "Свободно") {
@@ -25,30 +24,3 @@ $(document).ready(function(){
         }
     });
 });
-
-/*function findname(){
-    $('#signup').submit(function() {
-
-    var form_data= $( this ).serialize();
-
-    var username = $("#username").val();
-    if (username == "") {
-        $('#username').focus();
-        return false;
-    } 
-    else
-    {
-        $.ajax({
-            type:'POST',
-            url: '/user/findname',
-            data: form_data,
-            dataType: 'json',
-            success: function( response ){
-                console.log(response);
-            }
-            
-        });
-    }
-    });*/
-
-//'X-CSRF-Token': $('input[name="_token"]').val()*/

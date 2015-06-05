@@ -46,6 +46,7 @@
 <link   rel="stylesheet" type="text/css" href="/assets/css/token-input.css" />
 <script src="/assets/js/jquery.tokeninput.js"></script>
 <script src="/assets/js/signup.js"></script>
-<script src="/assets/js/findname.js"></script>
 <script src="/assets/js/findcity.js"></script>
+<script src="/assets/js/findname.js"></script>
+
 @endsection

@@ -45,6 +45,7 @@
                                     @else
                                         <li><a href="/auth/signupPage">Sign Up</a></li>
                                         <li><a href="/auth/loginPage">Login</a></li>
+                                        <li><a href="/city/new">Create city</a></li>
                                     @endif
                                 </ul>
 

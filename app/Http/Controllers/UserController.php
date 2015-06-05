@@ -7,7 +7,8 @@ use App\Models\City;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class UserController extends Controller {
+class UserController extends Controller 
+{
 
     public function index()
     {
@@ -28,7 +29,9 @@ class UserController extends Controller {
     public function update(Request $request, $id)
     {
         $user = User::find($id);
-        $user->city = $request->input('city');
+        $city    = City::where('id', $request->input('city'))->find(1);
+
+        $user->city = $city->city;
         $user->username = $request->input('username');
         $user->email = $request->input('email');
         $user->password = bcrypt($request->input('password'));
@@ -47,7 +50,8 @@ class UserController extends Controller {
 
     public function findname(Request $request)
     {
-        $user = User::where('username', $request->input('username'))->find(1);
+        $username = $request->input('username');
+        $user = User::where('username', '=', $username)->first();
         if ($user === null) {
             return response()->json(['Свободно']);
         }
@@ -56,10 +60,11 @@ class UserController extends Controller {
 
     public function findcity(Request $request)
     {
-        $city = User::where('city', 'LIKE', $request->input('city').'%')->find(1);
+        $cityname = $request->input('city');
+        $city = City::where('name', 'LIKE', $cityname.'%')->first();
         if ($city === null) {
-            return response()->json(['false']);
+            return response()->json([['Nothin found.']]);
         }
-        return response()->json(['id' => $city->id, 'name' => $city->city]);
+        return response()->json([['id' => $city->id, 'name' => $city->name]]);
     }
 }

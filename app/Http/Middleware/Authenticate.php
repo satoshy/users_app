@@ -6,11 +6,11 @@ use Illuminate\Contracts\Auth\Guard;
 
 class Authenticate implements Middleware {
 
-    protected $auth;
+    //protected $auth;
     
-    public function __construct(Guard $auth) {
-        $this->auth = $auth;
-    }
+    //public function __construct(Guard $auth) {
+     //   $this->auth = $auth;
+    //}
 
     public function handle($request, Closure $next)
     {

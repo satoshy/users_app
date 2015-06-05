@@ -33,12 +33,17 @@ $app->group(['prefix' => '/auth', 'namespace' => 'App\Http\Controllers'], functi
 
 $app->group(['prefix' => '/user', 'namespace' => 'App\Http\Controllers'], function($app)
 {
-	$app->get('/index',        ['uses' => 'UserController@index',   'as' => 'users_all']);
-	$app->get('/edit/{id}',    ['uses' => 'UserController@edit',    'as' => 'user_edit']);
-	$app->post('/update/{id}', ['uses' => 'UserController@update',  'as' => 'user_update']);
-	$app->get('/delete/{id}',  ['uses' => 'UserController@destroy', 'as' => 'user_delete']);
+	$app->get('/index',        ['uses' => 'UserController@index',      'as' => 'users_all']);
+	$app->get('/edit/{id}',    ['uses' => 'UserController@edit',       'as' => 'user_edit']);
+	$app->post('/update/{id}', ['uses' => 'UserController@update',     'as' => 'user_update']);
+	$app->get('/delete/{id}',  ['uses' => 'UserController@destroy',    'as' => 'user_delete']);
 
 	$app->get('/findname',     ['uses' => 'UserController@findname',   'as' => 'findname']);
 	$app->get('/findcity',     ['uses' => 'UserController@findcity',   'as' => 'findcity']);
 });
 
+$app->group(['prefix' => '/city', 'namespace' => 'App\Http\Controllers'], function($app)
+{
+	$app->get('/new',          ['uses' => 'CityController@cityPage',   'as' => 'create_page']);
+	$app->post('/create',      ['uses' => 'CityController@create',     'as' => 'create']);	
+});
